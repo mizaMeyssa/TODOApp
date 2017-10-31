@@ -1,5 +1,15 @@
 {
+  "name": "TO-DO-App",
+  "version": "0.0.1",
   "dependencies": {
-    "mongoose": "4.0.3",
+    "express": "4.12.3",
+    "superagent": "1.2.0",
+    "mongoose": "4.0.3"
+  },
+  "devDependencies": {
+    "mocha": "2.2.4"
+  },
+  "scripts": {
+    "test": "mocha test.js"
   }
 }

@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var User = require('./user.js')
 
 var todoSchema = {
 	title: {type: String, required: true},
@@ -8,8 +7,10 @@ var todoSchema = {
 	eta: {type: Date},
 	tags: [{type: String, maxlength: 150}],
 	attachements: [{type: String}],
-	user: User._id
+	user: {type: mongoose.Schema.Types.ObjectId}
 }
 
-module.exports = new mongoose.Schema(todoSchema);
+var schema = new mongoose.Schema(todoSchema);
+
+module.exports = 
 module.exports.todoSchema = todoSchema;
