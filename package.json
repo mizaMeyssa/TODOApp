@@ -13,7 +13,9 @@
     "mocha": "2.2.4",
     "browserify": "10.2.3",
     "gulp": "3.8.11",
-    "gulp-browserify": "0.5.1"
+    "gulp-browserify": "0.5.1",
+    "gulp-clean": "0.3.2",
+    "gulp-sequence": "0.4.6"
   },
   "scripts": {
     "test": "mocha test.js"
