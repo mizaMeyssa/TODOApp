@@ -1,15 +1,9 @@
 var express = require('express');
+var mongoose = require('mongoose');
 
-module.exports = function () {
-	var app = express();
+var server = express();
+server.use(express.static('./', { maxAge: 4 * 60 * 60 * 1000 /* 2hrs */}));
+server.listen(3000);
+console.log('Server listening on port 3000!');
 
-	app.get('/', function(req, res){
-		res.send('Hello World!');
-	});
-
-	app.get('/user/:user', function(req, res){
-		res.send('Page for user ' + req.params.user + ' with option ' + req.query.option);
-	});
-
-	return app;
-}
+mongoose.connect('mongodb://127.0.0.1:27017/test');

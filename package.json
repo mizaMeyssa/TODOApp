@@ -4,10 +4,14 @@
   "dependencies": {
     "express": "4.12.3",
     "superagent": "1.2.0",
-    "mongoose": "4.0.3"
+    "mongoose": "4.0.3",
+    "underscore": "1.8.3"
   },
   "devDependencies": {
-    "mocha": "2.2.4"
+    "mocha": "2.2.4",
+    "browserify": "10.2.3",
+    "gulp": "3.8.11",
+    "gulp-browserify": "0.5.1"
   },
   "scripts": {
     "test": "mocha test.js"
