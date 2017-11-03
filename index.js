@@ -3,25 +3,30 @@ var directives = require('./directives.js');
 var services = require('./services.js');
 var _ = require('underscore');
 
-var app = angular.module('myApp', ['ng']);
+// 1st module: define the SPA components 
+var components = angular.module('myApp.components', ['ng']);
 
 _.each( controllers, function (controller, name) {
-	app.controller(name, controller);
+	components.controller(name, controller);
 });
 
 _.each( directives, function (directive, name) {
-	app.directive(name, directive);
+	components.directive(name, directive);
 });
 
 _.each( services, function (service, name) {
-	app.factory(name, service);
+	components.factory(name, service);
 });
 
-/* This script starts the express server */
-/*var mongoose = require('mongoose');
-var server = require('./server.js');
+// 1st module: define the SPA routing
+var app = angular.module('myApp', ['myApp.components', 'ngRoute']);
 
-mongoose.connect('mongodb://127.0.0.1:27017/test');
-
-server().listen(3000);
-console.log('Server listening on port 3000!');*/
+app.config(function ($routeProvider) {
+	$routeProvider.
+		when('/dashboard', {
+			template: '<todo-counter></todo-counter>'
+		}).
+		when('/todo/:id', {
+			template: '<todo-details></todo-details>'
+		})
+})

@@ -1,6 +1,6 @@
 exports.todoCounter = function() {
   return {
-    controller: 'todoController',
+    controller: 'todoCounterController',
     templateUrl: 'templates/todo_counter.html'
   };
 };

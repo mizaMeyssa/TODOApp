@@ -4,8 +4,10 @@
   "dependencies": {
     "express": "4.12.3",
     "superagent": "1.2.0",
+    "http-status": "0.1.8",
     "mongoose": "4.0.3",
-    "underscore": "1.8.3"
+    "underscore": "1.8.3",
+    "wagner-core": "0.1.0"
   },
   "devDependencies": {
     "mocha": "2.2.4",
