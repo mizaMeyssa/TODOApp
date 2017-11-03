@@ -1,6 +1,6 @@
-var controllers = require('./controllers.js');
-var directives = require('./directives.js');
-var services = require('./services.js');
+var controllers = require('./components/controllers.js');
+var directives = require('./components/directives.js');
+var services = require('./components/services.js');
 var _ = require('underscore');
 
 // 1st module: define the SPA components 
