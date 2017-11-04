@@ -6,11 +6,15 @@
     <link href="style/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="style/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
     <link href="style/morrisjs/morris.css" rel="stylesheet">
     <link href="style/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-route.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <!-- <script src="http://angular-ui.github.com/bootstrap/ui-bootstrap-tpls-0.2.0.js"></script> -->
+    <script type="text/javascript" src="node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js"></script>
 
     <script type="text/javascript" src="./bin/index.js"></script>
 </head>
@@ -34,10 +38,10 @@
                             <a href="#/dashboard"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Today's TO-DOs</a>
+                            <a href="#/workload/today"><i class="fa fa-dashboard fa-fw"></i> Today's TO-DOs</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Upcoming TO-DOs</a>
+                            <a href="#/workload/upcoming"><i class="fa fa-dashboard fa-fw"></i> Upcoming TO-DOs</a>
                         </li>
                     </ul>
                 </div>
@@ -47,12 +51,8 @@
         <!-- Page Wrapper -->
         <div id="page-wrapper">
             <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">Dashboard</h1>
-                </div>
-            </div>
-            <div class="row">
-                <todo-counter></todo-counter>
+                <div ng-view></div>
+                <!-- <todo-counter></todo-counter> -->
             </div>
         </div>
     </div>

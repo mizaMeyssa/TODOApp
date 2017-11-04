@@ -1,7 +1,8 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose').set('debug', true);
 
 module.exports = function (wagner) {
-	mongoose.connect('mongodb://127.0.0.1:27017/test');
+	mongoose.connect('mongodb://127.0.0.1:27017');
+	//mongoose.connect('mongodb://127.0.0.1:27017/todos');
 
 	var TODO = mongoose.model('TODO', require('./schemas/todo.js'), 'todos');
 

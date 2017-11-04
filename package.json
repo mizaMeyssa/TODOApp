@@ -7,7 +7,10 @@
     "http-status": "0.1.8",
     "mongoose": "4.0.3",
     "underscore": "1.8.3",
-    "wagner-core": "0.1.0"
+    "wagner-core": "0.1.0",
+    "bootstrap": "3.3.7",
+    "angular-ui-bootstrap": "2.2.0",
+    "body-parser": "1.18.2"
   },
   "devDependencies": {
     "mocha": "2.2.4",

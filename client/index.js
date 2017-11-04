@@ -19,12 +19,18 @@ _.each( services, function (service, name) {
 });
 
 // 1st module: define the SPA routing
-var app = angular.module('myApp', ['myApp.components', 'ngRoute']);
+var app = angular.module('myApp', ['myApp.components', 'ngRoute', 'ui.bootstrap']);
 
 app.config(function ($routeProvider) {
 	$routeProvider.
 		when('/dashboard', {
 			template: '<todo-counter></todo-counter>'
+		}).
+		when('/workload/today', {
+			template: '<todo-list></todo-list>'
+		}).
+		when('/workload/upcoming', {
+			template: '<todo-list></todo-list>'
 		}).
 		when('/todo/:id', {
 			template: '<todo-details></todo-details>'
