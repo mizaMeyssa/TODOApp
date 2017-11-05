@@ -31,7 +31,6 @@ module.exports = function (wagner) {
 
 	api.post('/todos/add', wagner.invoke(function(TODO) {
 		return function(req, res) {
-			console.log(req.body);
 			var todo = new TODO(req.body.todo);
 			todo.save(function(error, todo) {
 				if(error) {
@@ -40,6 +39,22 @@ module.exports = function (wagner) {
 						json({ error: error.toString() });
 				}
 				return res.json({ todo: todo});
+			});
+		}
+	}));
+
+	api.post('/todos/update/:id', wagner.invoke(function(TODO) {
+		return function(req, res) {
+			TODO.findById(req.params.id, function(error, todo) {
+				console.log(todo);
+				todo.update({ title: req.body.todo.title, description: req.body.todo.description }, {upsert:true}, function(error, todo) {
+					if(error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+					return res.json({ todo: todo});
+				});
 			});
 		}
 	}));

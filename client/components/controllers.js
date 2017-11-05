@@ -47,28 +47,48 @@ exports.todoListController = function ($scope, $http, $uibModal) {
 	    $scope.$emit('todoListController');
 	}, 0);
 
-	$scope.addTODO = function() {
-		$scope.todo = {};
+	// Edit function either adds a new todo or update an existing one
+	$scope.editTODO = function(todo) {
+		$scope.todo = todo || null;
 
 		var modalInstance = $uibModal.open({
 		  animation: true,
 		  templateUrl: 'bin/templates/todo_form.html',
-		  size: 'lg',
-		  scope: $scope
+		  controller: 'todoEditorController',
+		  resolve: {
+		  	todo: function() {
+		  		return $scope.todo;
+		  	}
+		  }
 		});
-
-		$scope.cancel = function () {
-		  modalInstance.dismiss('cancel');
-		};
-
-		$scope.save = function () {
-		  modalInstance.close($scope.todo);
-		  $http.
-			post('/api/todos/add', {todo: $scope.todo}).
-			then(function(res) {
-				console.log(res);
-			});
-		  
-		};
 	}
+}
+
+exports.todoEditorController = function ($uibModalInstance, $scope, $http, $route, todo) {
+
+	$scope.todo_modal = angular.copy(todo);
+
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+
+	$scope.save = function () {
+		$uibModalInstance.close($scope.todo_modal);
+		if (todo) {
+			console.log('edit');
+			$http.
+				post('/api/todos/update/' + $scope.todo_modal._id, {todo: $scope.todo_modal}).
+				then(function(res) {
+					$route.reload();
+				});
+		} else {
+			console.log('add');
+			$http.
+				post('/api/todos/add', {todo: $scope.todo_modal}).
+				then(function(res) {
+					$route.reload();
+				});
+		}
+		  
+	};
 }
