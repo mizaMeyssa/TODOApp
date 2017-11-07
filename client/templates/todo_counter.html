@@ -9,12 +9,34 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{today_count}}</div>
-                                    <div>TO DOs today!</div>
+                                    <div class="huge">{{pending}}</div>
+                                    <div>Pending TO DOs Today!</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/#/workload/today">
+                            <div class="panel-footer">
+                                <span class="pull-left">View Details</span>
+                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                <div class="clearfix"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="panel panel-yellow">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i class="fa fa-tasks fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge">{{inProgress}}</div>
+                                    <div>TO DOs In Progress Today!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/#/workload/today">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -31,12 +53,12 @@
                                     <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">{{upcoming_count}}</div>
-                                    <div>Upcoming TO DOs!</div>
+                                    <div class="huge">{{done}}</div>
+                                    <div>Accomplished TO DOs Today!</div>
                                 </div>
                             </div>
                         </div>
-                        <a href="#">
+                        <a href="/#/workload/today">
                             <div class="panel-footer">
                                 <span class="pull-left">View Details</span>
                                 <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>

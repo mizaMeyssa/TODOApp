@@ -28,11 +28,8 @@ app.config(function ($routeProvider) {
 		}).
 		when('/workload/today', {
 			template: '<todo-list></todo-list>'
-		}).
-		when('/workload/upcoming', {
-			template: '<todo-list></todo-list>'
-		}).
-		when('/todo/:id', {
-			template: '<todo-details></todo-details>'
 		})
-})
+});
+
+app
+.value('AppBootstrapData', {});

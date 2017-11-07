@@ -1,16 +1,21 @@
-exports.$todo = function ($http) {
-	var service = {};
+exports.appBootsrapConfig = function ($http, $q) {
 
-	service.loadTodo = function() {
+	var defer = $q.defer();
+	var data = [];
+
+	var query = function() {
 		$http.
-		get('/api/todos').
+		get('/api/statuses').
 		success(function(data) {
-			service.todos = data.todos;
+			data.statuses = data.statuses;
+			defer.resolve(data);
 		}).
 		error(function(data, $status) {
-			service.todos =  [];
+			defer.reject([]);
 		});
+		return defer.promise;
 	}
-
-	return service;
+	return {
+		query : query
+	};
 }

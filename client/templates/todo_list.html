@@ -4,20 +4,18 @@
 <div class="col-lg-12">
 	<button type="button" class="btn btn-outline btn-primary" ng-click=editTODO()>Add a TO DO</button>
 </div>
-<div class="col-lg-4" ng-repeat="todo in todos">
-	<div class="panel panel-green">
+<div class="col-lg-3" ng-repeat="todo in todos">
+	<div class="panel panel-{{statusColor[todo.status]}}">
 		<div class="panel-heading">
 			{{todo.title}}
 		</div>
-		<div class="panel-body">
-			<p>{{todo.description}}</p>
-		</div>
 		<div class="panel-footer">
 			<div class = "action-btns">
-				<button type="button" class="btn btn-warning btn-circle" title="Edit" ng-click=editTODO(todo)><i class="fa fa-pencil"></i></button>
-				<button type="button" class="btn btn-info btn-circle" title="Mark As In Prgress"><i class="fa fa-link"></i></button>
-				<button type="button" class="btn btn-success btn-circle" title="Mark As In Done"><i class="fa fa-check"></i></button>
-				<button type="button" class="btn btn-danger btn-circle" title="Mark As In Blocked"><i class="fa fa-times"></i></button>
+				<button type="button" class="btn btn-info btn-circle" title="Edit" ng-click=editTODO(todo)><i class="fa fa-wrench"></i></button>
+				<button type="button" class="btn btn-primary btn-circle" title="Start Prgress" ng-click=startProgress(todo)><i class="fa fa-link"></i></button>
+				<button type="button" class="btn btn-success btn-circle" title="Mark As In Done" ng-click=finishProgress(todo)><i class="fa fa-check"></i></button>
+				<button type="button" class="btn btn-warning btn-circle" title="Mark As Pending"  ng-click=stopProgress(todo)><i class="fa fa-minus-circle"></i></button>
+				<button type="button" class="btn btn-danger btn-circle" title="Delete"  ng-click=deleteTODO(todo)><i class="fa fa-times"></i></button>
 			</div>
 		</div>
 	</div>

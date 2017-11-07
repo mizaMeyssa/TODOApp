@@ -1,32 +1,26 @@
 var _ = require('underscore');
 
-exports.todoCounterController = function($scope, $routeParams, $http) {
+exports.todoCounterController = function($scope, $routeParams, $http, appBootsrapConfig, AppBootstrapData) {
 	var encoded = encodeURIComponent($routeParams);
-	console.log(encoded);
 	var now = new Date();
-	console.log(now);
 	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-	console.log(today);
 
+	// To DO move this to dashboard controller
+	appBootsrapConfig
+		.query()
+		.then(function (data) {
+			angular.extend(AppBootstrapData, data);
+		});
 
 	$http.
-		get('/api/todos' ).
+		get('/api/todos/count' ).
 		success(function (data) {
-			var today_todos = [];
-			var upcoming_todos = [];
-			var today = new Date().toISOString();
-			_.each(data.todos, function(todo) {
-
-				if (todo.eta <= today) {
-					today_todos.push(todo);
-				} else {
-					upcoming_todos.push(todo);
-				}
-			});
-			$scope.today_count = today_todos.length;
-			$scope.upcoming_count = upcoming_todos.length;
-			$scope.routeTitle = "KPIs";
+			$scope.pending = data.counts.pending || 0;
+			$scope.inProgress = data.counts.inProgress || 0;
+			$scope.done = data.counts.done || 0;
 		});
+
+	$scope.routeTitle = "KPIs";
 
 	// This is just for testing purposes
 	setTimeout(function() {
@@ -34,7 +28,13 @@ exports.todoCounterController = function($scope, $routeParams, $http) {
 	}, 0);
 };
 
-exports.todoListController = function ($scope, $http, $uibModal) {
+exports.todoListController = function ($scope, $http, $route, $uibModal) {
+	$scope.statusColor = {
+		'inProgress' : 'primary',
+		'pending' : 'yellow',
+		'done': 'green'
+	};
+
 	$http.
 		get('/api/todos').
 		success(function(data) {
@@ -62,11 +62,55 @@ exports.todoListController = function ($scope, $http, $uibModal) {
 		  }
 		});
 	}
+
+	$scope.startProgress = function(todo) {
+		editTODOStatus(todo, 'inProgress');
+	};
+
+	$scope.finishProgress = function(todo) {
+		editTODOStatus(todo, 'done');
+	};
+
+	$scope.stopProgress = function(todo) {
+		editTODOStatus(todo, 'pending');
+	};
+
+	var editTODOStatus = function(todo, status) {
+		todo.status = status;
+		$http.
+		post('/api/todos/update/' + todo._id, {todo: todo}).
+			then(function(data) {
+				$route.reload();
+			});
+
+	}
+
+	$scope.deleteTODO = function(todo) {
+		$http.
+		post('/api/todos/delete/' + todo._id, {todo: todo}).
+			then(function(data) {
+				$route.reload();
+			});
+	};
 }
 
-exports.todoEditorController = function ($uibModalInstance, $scope, $http, $route, todo) {
+exports.todoEditorController = function ($uibModalInstance, $scope, $http, $route, AppBootstrapData, todo) {
 
 	$scope.todo_modal = angular.copy(todo);
+	$scope.statuses = AppBootstrapData.statuses;
+
+	$scope.datePopup = {
+		opened : false
+	};
+	$scope.dateOptions = {
+	    formatYear: 'yy',
+	    maxDate: new Date(2020, 5, 22),
+	    minDate: new Date(),
+	    startingDay: 1
+	  };
+	$scope.openDatePopup = function() {
+	    $scope.datePopup.opened = true;
+	};
 
 	$scope.cancel = function () {
 		$uibModalInstance.dismiss('cancel');
@@ -75,14 +119,12 @@ exports.todoEditorController = function ($uibModalInstance, $scope, $http, $rout
 	$scope.save = function () {
 		$uibModalInstance.close($scope.todo_modal);
 		if (todo) {
-			console.log('edit');
 			$http.
 				post('/api/todos/update/' + $scope.todo_modal._id, {todo: $scope.todo_modal}).
 				then(function(res) {
 					$route.reload();
 				});
 		} else {
-			console.log('add');
 			$http.
 				post('/api/todos/add', {todo: $scope.todo_modal}).
 				then(function(res) {

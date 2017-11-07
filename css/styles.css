@@ -1,3 +1,10 @@
 .todo-actions {
 	overflow: right;
 }
+
+.logo {
+  float: left;
+  margin: 5px;
+  width: 30px;
+  height: auto;
+}
