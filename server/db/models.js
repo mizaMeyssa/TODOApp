@@ -7,10 +7,12 @@ module.exports = function (wagner) {
 
 	var TODO = mongoose.model('TODO', require('./schemas/todo.js'), 'todos');
 	var Status = mongoose.model('Status', require('./schemas/status.js'), 'statuses');
+	var Type = mongoose.model('Type', require('./schemas/type.js'), 'types');
 
 	var models = {
 		TODO : TODO,
-		Status : Status
+		Status : Status,
+		Type: Type
 	};
 
 	_.each(models, function(value, key) {

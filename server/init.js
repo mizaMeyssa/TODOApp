@@ -18,4 +18,19 @@ module.exports.launch = function (wagner) {
 				});
 		});
 	});
+
+	wagner.invoke(function(Type) {
+		var types = [
+			{_id: 'action', label: 'Action'},
+			{_id: 'followup', label: 'Follow-Up'}
+		];
+		_.each(types, function(element) {
+			var type = new Type(element);
+			type.save(function(error, type) {
+					if(error) {
+						console.log({ error: error.toString() });
+					}
+				});
+		});
+	});
 }

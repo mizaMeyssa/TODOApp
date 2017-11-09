@@ -33,3 +33,19 @@ app.config(function ($routeProvider) {
 
 app
 .value('AppBootstrapData', {});
+
+/*
+ * We put here the run block that will take place during the bootstrap process
+ */
+app
+.run(function(AppBootsrapConfig, AppBootstrapData) {
+	// To DO move this to dashboard controller
+	AppBootsrapConfig
+		.query()
+		.then(function (data) {
+			var bootstrapData = [];
+			bootstrapData.statuses = data[0].data.statuses;
+			bootstrapData.types = data[1].data.types;
+			angular.extend(AppBootstrapData, bootstrapData);
+		});
+});

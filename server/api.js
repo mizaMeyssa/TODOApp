@@ -31,20 +31,59 @@ module.exports = function (wagner) {
 		}
 	}));
 
-	api.get('/todos', wagner.invoke(function(TODO) {
+	api.get('/types', wagner.invoke(function(Type) {
 		return function(req, res) {
-			TODO.find({}, function(error, todos) {
+			Type.find({}, function(error, types) {
 				if(error) {
 					return res.
 						status(status.INTERNAL_SERVER_ERROR).
 						json({ error: error.toString() });
 				}
-				if (!todos) {
+				if (!types) {
 					return res.
 						status(status.NOT_FOUND).
 						json({ error: 'NOT FOUND' });
 				}
-				return res.json({ todos: todos });
+				return res.json({ types: types });
+			});
+		}
+	}));
+
+	/*
+	 * I didn't find how to group by status without aggregating, for now I'am doing this..
+	 */
+	api.get('/todos', wagner.invoke(function(TODO) {
+		return function(req, res) {
+			var data = {};
+			TODO
+			.find({status: 'pending'}, function(error, todos) {
+				if(error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+				data.pending = todos;
+
+				TODO
+				.find({status: 'inProgress'}, function(error, todos) {
+					if(error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+					data.inProgress = todos;
+
+					TODO
+					.find({status: 'done'}, function(error, todos) {
+						if(error) {
+							return res.
+								status(status.INTERNAL_SERVER_ERROR).
+								json({ error: error.toString() });
+						}
+						data.done = todos;
+						return res.json({ todos: data });
+					});
+				});
 			});
 		}
 	}));
@@ -90,7 +129,7 @@ module.exports = function (wagner) {
 		return function(req, res) {
 			TODO.findById(req.params.id, function(error, todo) {
 				console.log(todo);
-				todo.update({ title: req.body.todo.title, description: req.body.todo.description, status: req.body.todo.status, type: req.body.todo.type }, {upsert:true}, function(error, todo) {
+				todo.update(req.body.todo, {upsert:true}, function(error, todo) {
 					if(error) {
 						return res.
 							status(status.INTERNAL_SERVER_ERROR).

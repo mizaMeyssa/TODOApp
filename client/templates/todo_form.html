@@ -16,13 +16,13 @@
         <div class="form-group">
           <label>Type</label>
           <select class="form-control" ng-model=todo_modal.type> 
-            <option>Action</option>
-            <option>Follow-up</option>
+            <option ng-repeat="type in types" value="{{type._id}}">{{type.label}}</option>
           </select>
         </div>
         <div class="input-group">
-          <input type="text" class="form-control" placeholder="Enter an ETA" uib-datepicker-popup="dd/MM/yyyy" ng-model="dt" is-open="datePopup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-          <span class="input-group-btn">
+        <label>ETA</label>
+          <input type="text" class="form-control" placeholder="Enter an ETA" uib-datepicker-popup="dd/MM/yyyy" ng-model="todo_modal.eta" is-open="datePopup.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+          <span class="input-group-btn input-group-btn-custom">
             <button type="button" class="btn btn-default" ng-click="openDatePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
           </span>
         </div>

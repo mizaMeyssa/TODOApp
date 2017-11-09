@@ -8,3 +8,13 @@
   width: 30px;
   height: auto;
 }
+
+.input-group-btn-custom {
+	vertical-align: bottom; !important
+}
+
+.mainAction {
+	margin : 10px 0px 0px 5px;
+	background-color: #6AC7B3;
+	border-color: #66d6be;
+}

@@ -1,19 +1,15 @@
-exports.appBootsrapConfig = function ($http, $q) {
+exports.AppBootsrapConfig = function ($http, $q) {
 
-	var defer = $q.defer();
 	var data = [];
 
 	var query = function() {
-		$http.
-		get('/api/statuses').
-		success(function(data) {
-			data.statuses = data.statuses;
-			defer.resolve(data);
-		}).
-		error(function(data, $status) {
-			defer.reject([]);
-		});
-		return defer.promise;
+		var promises = [
+			$http.
+			get('/api/statuses'),
+			$http.
+			get('/api/types')
+		];
+		return $q.all(promises);
 	}
 	return {
 		query : query

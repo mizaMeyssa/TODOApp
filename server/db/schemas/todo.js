@@ -6,11 +6,13 @@ var todoSchema = {
 	title: {type: String, required: true},
 	description: { type: String},
 	type: {type: String, enum: ['Action', 'Follow-up'], default:'Action'},
+	type: {type: String, ref: 'Action'},
 	eta: {type: Date , default: Date.now},
 	tags: [{type: String, maxlength: 150}],
 	attachements: [{type: String}],
 	user: {type: mongoose.Schema.Types.ObjectId},
-    status: { type: String, ref: 'Status'}
+	creationDate: {type: Date , default: Date.now},
+    status: { type: String, ref: 'Type'}
 }
 
 var schema = new mongoose.Schema(todoSchema);

@@ -24,5 +24,5 @@ gulp.task('clean', function () {
 gulp.task('build', gulpSequence('clean', ['browserify', 'copy']));
 
 gulp.task('watch', function() {
-  gulp.watch(['./*.js', './*.html', './client/*.js', './client/components/*.js'], ['browserify', 'copy']);
+  gulp.watch(['./*.js', './*.html', './client/*.js', './client/components/*.js', './client/templates/*.html'], ['browserify', 'copy']);
 });

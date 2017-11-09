@@ -1,16 +1,9 @@
 var _ = require('underscore');
 
-exports.todoCounterController = function($scope, $routeParams, $http, appBootsrapConfig, AppBootstrapData) {
+exports.todoCounterController = function($scope, $routeParams, $http, AppBootsrapConfig, AppBootstrapData) {
 	var encoded = encodeURIComponent($routeParams);
 	var now = new Date();
 	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-	// To DO move this to dashboard controller
-	appBootsrapConfig
-		.query()
-		.then(function (data) {
-			angular.extend(AppBootstrapData, data);
-		});
 
 	$http.
 		get('/api/todos/count' ).
@@ -28,7 +21,30 @@ exports.todoCounterController = function($scope, $routeParams, $http, appBootsra
 	}, 0);
 };
 
-exports.todoListController = function ($scope, $http, $route, $uibModal) {
+exports.todoListController = function ($scope, $http, $route, $uibModal, AppBootstrapData) {
+
+	$scope.statuses = {};
+	AppBootstrapData.statuses.map(function(status){
+		$scope.statuses[status._id] = status.label;
+	});
+
+	var isIE = function() {
+		var userAgent = navigator.userAgent;
+	    return userAgent.indexOf("MSIE ") > -1 || userAgent.indexOf("Trident/") > -1;
+	}
+
+	var textFormatData = function(todosData) {
+		var text = "";
+		Object.keys(todosData).forEach(function(type) {
+			text += "\t "+ $scope.statuses[type] +"\n";
+			todosData[type].forEach(function(todo) {
+				text += "- Title : "+todo.title+"\n";
+			});
+			text += "\n\n";
+		});
+		return text;
+	}
+
 	$scope.statusColor = {
 		'inProgress' : 'primary',
 		'pending' : 'yellow',
@@ -86,18 +102,49 @@ exports.todoListController = function ($scope, $http, $route, $uibModal) {
 	}
 
 	$scope.deleteTODO = function(todo) {
-		$http.
-		post('/api/todos/delete/' + todo._id, {todo: todo}).
-			then(function(data) {
-				$route.reload();
-			});
+		if (confirm("Are you sure you want to delete : " + todo.title + " ?") == true) {
+		    $http.
+			post('/api/todos/delete/' + todo._id, {todo: todo}).
+				then(function(data) {
+					$route.reload();
+				});
+		} 
 	};
+
+	$scope.downloadTODOs = function() {
+		var formattedData = textFormatData($scope.todos);
+		if (!isIE()) {
+          var blobdata = new Blob([formattedData],{type : 'text/plain'});
+          var link = document.createElement('a');
+          link.setAttribute('id', 'exportGrid');
+          link.setAttribute('href', window.URL.createObjectURL(blobdata));
+          link.setAttribute('download', 'workloadReport' + '.txt');
+          window.document.body.appendChild(link);
+          link.click();
+        } else {
+          var blob = new Blob([formattedData], {
+            type: 'text/plain'
+          });
+          window.navigator.msSaveBlob(blob, (saveName || 'gridData') + '.csv');
+        }
+	}
 }
 
 exports.todoEditorController = function ($uibModalInstance, $scope, $http, $route, AppBootstrapData, todo) {
 
-	$scope.todo_modal = angular.copy(todo);
 	$scope.statuses = AppBootstrapData.statuses;
+	$scope.types = AppBootstrapData.types;
+
+	if (todo) {
+		$scope.todo_modal = angular.copy(todo);
+		$scope.todo_modal.eta = new Date($scope.todo_modal.eta);
+	} else {
+		$scope.todo_modal = {};
+		$scope.todo_modal.type = $scope.types[0]._id;;
+		$scope.todo_modal.eta = new Date();
+		$scope.todo_modal.status = $scope.statuses[0]._id;
+	}
+	
 
 	$scope.datePopup = {
 		opened : false
