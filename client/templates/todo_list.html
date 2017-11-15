@@ -20,6 +20,7 @@
 					<button type="button" class="btn btn-success btn-circle" title="Mark As In Done" ng-click=finishProgress(todo) ng-disabled="todo.status == 'done'"><i class="fa fa-check"></i></button>
 					<button type="button" class="btn btn-warning btn-circle" title="Mark As Pending"  ng-click=stopProgress(todo) ng-disabled="todo.status == 'pending'"><i class="fa fa-minus-circle"></i></button>
 					<button type="button" class="btn btn-danger btn-circle" title="Delete"  ng-click=deleteTODO(todo)><i class="fa fa-times"></i></button>
+					<span class="ETA-indication">{{todo.eta.substring(0, 10)}}</span>
 				</div>
 			</div>
 		</div>

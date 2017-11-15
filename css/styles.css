@@ -1,5 +1,5 @@
 .main-wrapper {
-	margin: 0 0 0 50px; !important
+	margin: 0 50px 0 50px; !important
 }
 
 .main-header {
@@ -19,6 +19,12 @@
 
 .input-group-btn-custom {
 	vertical-align: bottom; !important
+}
+
+.ETA-indication {
+	float: right;
+	font-style: italic;
+	color: #3b444c;
 }
 
 .mainAction {
