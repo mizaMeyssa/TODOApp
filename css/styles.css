@@ -1,12 +1,20 @@
-.todo-actions {
-	overflow: right;
+.main-wrapper {
+	margin: 0 0 0 50px; !important
+}
+
+.main-header {
+	min-height: 100px;
 }
 
 .logo {
   float: left;
-  margin: 5px;
-  width: 40px;
+  margin: 20px;
+  width: 80px;
   height: auto;
+}
+
+.todo-actions {
+	overflow: right;
 }
 
 .input-group-btn-custom {

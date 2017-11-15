@@ -1,6 +1,6 @@
 var _ = require('underscore');
 
-exports.todoCounterController = function($scope, $routeParams, $http, AppBootsrapConfig, AppBootstrapData) {
+exports.todoCounterController = function($scope, $routeParams, $http) {
 	var encoded = encodeURIComponent($routeParams);
 	var now = new Date();
 	var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -69,7 +69,7 @@ exports.todoListController = function ($scope, $http, $route, $uibModal, AppBoot
 
 		var modalInstance = $uibModal.open({
 		  animation: true,
-		  templateUrl: 'bin/templates/todo_form.html',
+		  templateUrl: 'dist/templates/todo_form.html',
 		  controller: 'todoEditorController',
 		  resolve: {
 		  	todo: function() {

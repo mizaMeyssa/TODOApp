@@ -23,7 +23,7 @@ var app = angular.module('myApp', ['myApp.components', 'ngRoute', 'ui.bootstrap'
 
 app.config(function ($routeProvider) {
 	$routeProvider.
-		when('/dashboard', {
+		when('/', {
 			template: '<todo-counter></todo-counter>'
 		}).
 		when('/workload/today', {
