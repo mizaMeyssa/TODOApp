@@ -13,12 +13,14 @@
     "body-parser": "1.18.2"
   },
   "devDependencies": {
-    "mocha": "2.2.4",
     "browserify": "10.2.3",
+    "cors": "^2.8.4",
     "gulp": "3.8.11",
     "gulp-browserify": "0.5.1",
     "gulp-clean": "0.3.2",
-    "gulp-sequence": "0.4.6"
+    "gulp-concat": "^2.6.1",
+    "gulp-sequence": "0.4.6",
+    "mocha": "2.2.4"
   },
   "scripts": {
     "test": "mocha test.js"

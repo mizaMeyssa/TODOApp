@@ -1,4 +1,0 @@
-alias mongod="/c/Program\ Files/MongoDB/Server/3.4/bin/mongod"
-alias mongo="/c/Program\ Files/MongoDB/Server/3.4/bin/mongo"
-
-mongod --dbpath ./data

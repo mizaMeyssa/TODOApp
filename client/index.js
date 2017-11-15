@@ -39,7 +39,6 @@ app
  */
 app
 .run(function(AppBootsrapConfig, AppBootstrapData) {
-	// To DO move this to dashboard controller
 	AppBootsrapConfig
 		.query()
 		.then(function (data) {

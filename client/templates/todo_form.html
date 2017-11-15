@@ -6,7 +6,7 @@
     <div class="modal-body">
       <form role="form">
         <div class="form-group">
-          <label>Title</label>
+          <label>Title <font color="red">*</font></label>
           <input class="form-control" placeholder="Enter a Title" ng-model=todo_modal.title>
         </div>
         <div class="form-group">
@@ -36,6 +36,6 @@
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" focus-element="autofocus" data-dismiss="modal" ng-click=cancel()>Cancel</button>
-        <button type="button" class="btn btn-primary" ng-click=save()>Save</button>
+        <button type="button" class="btn btn-primary" ng-click=save() ng-disabled="!todo_modal.title || todo_modal.title == '' ">Save</button>
     </div>
   </div>
