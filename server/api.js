@@ -56,7 +56,7 @@ module.exports = function (wagner) {
 		return function(req, res) {
 			var data = {};
 			TODO
-			.find({status: 'pending'}, function(error, todos) {
+			.find({status: 'pending'}, {}, {sort: {eta: 1}}, function(error, todos) {
 				if(error) {
 					return res.
 						status(status.INTERNAL_SERVER_ERROR).
@@ -65,7 +65,7 @@ module.exports = function (wagner) {
 				data.pending = todos;
 
 				TODO
-				.find({status: 'inProgress'}, function(error, todos) {
+				.find({status: 'inProgress'}, {}, {sort: {eta: 1}}, function(error, todos) {
 					if(error) {
 						return res.
 							status(status.INTERNAL_SERVER_ERROR).
@@ -74,7 +74,7 @@ module.exports = function (wagner) {
 					data.inProgress = todos;
 
 					TODO
-					.find({status: 'done'}, function(error, todos) {
+					.find({status: 'done'}, {}, {sort: {eta: 1}}, function(error, todos) {
 						if(error) {
 							return res.
 								status(status.INTERNAL_SERVER_ERROR).
