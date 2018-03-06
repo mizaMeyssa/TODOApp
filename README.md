@@ -26,7 +26,7 @@ npm install
 ### Launching the database server
 * Run what follows under TODO_app folder
 ```
-alias mongo="<your_MongoDB_path>/Server/3.4/bin/mongo"
+alias mongod="<your_MongoDB_path>/Server/3.4/bin/mongod"
 ```
 ```
 mongod --dbpath data

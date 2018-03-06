@@ -1,17 +1,26 @@
-<div class="col-lg-10">
-	<h4 class="page-header">{{routeTitle}}</h4>
-</div>
-<div class="col-lg-2">
-	<button type="button" class="btn btn-info btn-circle btn-lg mainAction" title="Add a TO DO" ng-click=editTODO()><i class="fa fa-plus"></i></button>
-	<button type="button" class="btn btn-info btn-circle btn-lg mainAction" title="Download TO DOs list" ng-click=downloadTODOs()><i class="fa fa-download"></i></button>
-</div>
+	<div class="navbar navbar-default">
+		<div class="container">
+			<form class="navbar-form" role="search">
+				<div class="col-lg-10">
+					<input type="text" class="form-control"  placeholder="Start a title-based filter.." ng-keypress=filterByTitle() ng-model=titleSearch>
+				</div>
+				<div class="col-lg-2">
+					<button type="button" class="btn btn-info mainAction" title="Add a TO DO" ng-click=editTODO()><i class="fa fa-plus"></i></button>
+					<button type="button" class="btn btn-info mainAction" title="Download TO DOs list" ng-click=downloadTODOs()><i class="fa fa-download"></i></button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+
+
 <div class="col-lg-12">
 <div class="row"  ng-repeat="(key, type) in todos">
 	<h6 class="page-header ng-binding" ng-show="type.length">{{statuses[key]}}</h6>
 	<div class="col-lg-3" ng-repeat="todo in type">
 		<div class="panel panel-{{statusColor[todo.status]}}">
 			<div class="panel-heading">
-				{{todo.title}}
+				{{todo.title.length > 30 ? (todo.title | beautify : true:30)+'...' : todo.title}}
 			</div>
 			<div class="panel-footer">
 				<div class = "action-btns">

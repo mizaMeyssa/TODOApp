@@ -2,15 +2,16 @@
   "name": "TO-DO-App",
   "version": "0.0.1",
   "dependencies": {
+    "angular-ui-bootstrap": "2.2.0",
+    "body-parser": "1.18.2",
+    "bootstrap": "3.3.7",
+    "cors": "^2.8.4",
     "express": "4.12.3",
-    "superagent": "1.2.0",
     "http-status": "0.1.8",
     "mongoose": "4.0.3",
+    "superagent": "1.2.0",
     "underscore": "1.8.3",
-    "wagner-core": "0.1.0",
-    "bootstrap": "3.3.7",
-    "angular-ui-bootstrap": "2.2.0",
-    "body-parser": "1.18.2"
+    "wagner-core": "0.1.0"
   },
   "devDependencies": {
     "browserify": "10.2.3",

@@ -24,6 +24,7 @@ exports.todoCounterController = function($scope, $routeParams, $http) {
 exports.todoListController = function ($scope, $http, $route, $uibModal, AppBootstrapData) {
 
 	$scope.statuses = {};
+	$scope.titleSearch = null;
 	AppBootstrapData.statuses.map(function(status){
 		$scope.statuses[status._id] = status.label;
 	});
@@ -52,7 +53,7 @@ exports.todoListController = function ($scope, $http, $route, $uibModal, AppBoot
 	};
 
 	$http.
-		get('/api/todos').
+		get('/api/todos/today').
 		success(function(data) {
 			$scope.todos = data.todos;
 			$scope.routeTitle = "TO DOs' list";
@@ -92,9 +93,8 @@ exports.todoListController = function ($scope, $http, $route, $uibModal, AppBoot
 	};
 
 	var editTODOStatus = function(todo, status) {
-		todo.status = status;
 		$http.
-		post('/api/todos/update/' + todo._id, {todo: todo}).
+		post('/api/todos/update/workflow/' + todo._id, {status: status}).
 			then(function(data) {
 				$route.reload();
 			});
@@ -127,6 +127,10 @@ exports.todoListController = function ($scope, $http, $route, $uibModal, AppBoot
           });
           window.navigator.msSaveBlob(blob, (saveName || 'gridData') + '.csv');
         }
+	}
+
+	$scope.filterByTitle = function() {
+		console.log($scope.titleSearch);
 	}
 }
 

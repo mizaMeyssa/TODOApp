@@ -1,6 +1,7 @@
 var controllers = require('./components/controllers.js');
 var directives = require('./components/directives.js');
 var services = require('./components/services.js');
+var filters = require('./components/filters.js');
 var _ = require('underscore');
 
 // 1st module: define the SPA components 
@@ -16,6 +17,10 @@ _.each( directives, function (directive, name) {
 
 _.each( services, function (service, name) {
 	components.factory(name, service);
+});
+
+_.each( filters, function (filter, name) {
+	components.filter(name, filter);
 });
 
 // 1st module: define the SPA routing

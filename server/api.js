@@ -12,6 +12,11 @@ module.exports = function (wagner) {
 	    extended: true
 	}));
 	api.use(bodyParser.json());
+	api.use(function(req, res, next) {
+	  res.header("Access-Control-Allow-Origin", "*");
+	  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	  next();
+	});
 
 	api.get('/statuses', wagner.invoke(function(Status) {
 		return function(req, res) {
@@ -52,9 +57,11 @@ module.exports = function (wagner) {
 	/*
 	 * I didn't find how to group by status without aggregating, for now I'am doing this..
 	 */
-	api.get('/todos', wagner.invoke(function(TODO) {
+	api.get('/todos/today', wagner.invoke(function(TODO) {
 		return function(req, res) {
 			var data = {};
+			var today = new Date().setHours(0,0,0,0); // last midnight
+			console.log(today);
 			TODO
 			.find({status: 'pending'}, {}, {sort: {eta: 1}}, function(error, todos) {
 				if(error) {
@@ -74,7 +81,7 @@ module.exports = function (wagner) {
 					data.inProgress = todos;
 
 					TODO
-					.find({status: 'done'}, {}, {sort: {eta: 1}}, function(error, todos) {
+					.find({status: 'done', closureDate: {"$gte": today} }, {}, {sort: {eta: 1}}, function(error, todos) {
 						if(error) {
 							return res.
 								status(status.INTERNAL_SERVER_ERROR).
@@ -84,6 +91,24 @@ module.exports = function (wagner) {
 						return res.json({ todos: data });
 					});
 				});
+			});
+		}
+	}));
+
+	api.get('/todos/archive', wagner.invoke(function(TODO) {
+		return function(req, res) {
+			var data = {};
+			var today = new Date().setHours(0,0,0,0); // last midnight
+			console.log(today);
+			TODO
+			//.find({status: 'done', $or:[ {closureDate: {"$lt": today}}, {closureDate: {$exists: false}} ]}, {}, {sort: {eta: 1}}, function(error, todos) {
+			.find({$nor :[ {status: 'done'},{status: 'inProgress'},{status: 'pending'}  ]}, {}, {sort: {eta: 1}}, function(error, todos) {
+				if(error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+				return res.json({ todos: todos });
 			});
 		}
 	}));
@@ -110,10 +135,25 @@ module.exports = function (wagner) {
 		}
 	}));
 
+	api.get('/todos/overdue', wagner.invoke(function(TODO) {
+		return function(req, res) {
+			var data = {};
+			var now = new Date();
+			TODO
+			.find({ $or:[ {'status':'pending'}, {'status':'inProgress'} ], eta: {"$lte": now}}, {}, {sort: {eta: 1}}, function(error, data) {
+				if(error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+				return res.json({ todos: data });
+			});
+		}
+	}));
+
 	api.post('/todos/add', wagner.invoke(function(TODO) {
 		return function(req, res) {
 			var todo = new TODO(req.body.todo);
-			console.log(todo);
 			todo.save(function(error, todo) {
 				if(error) {
 					return res.
@@ -128,8 +168,27 @@ module.exports = function (wagner) {
 	api.post('/todos/update/:id', wagner.invoke(function(TODO) {
 		return function(req, res) {
 			TODO.findById(req.params.id, function(error, todo) {
-				console.log(todo);
+				var now = new Date();
+				var req.body.todo.closureDate = (!req.body.todo.closureDate && req.body.todo.status === 'done' && now);
 				todo.update(req.body.todo, {upsert:true}, function(error, todo) {
+					if(error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+					return res.json({ todo: todo});
+				});
+			});
+		}
+	}));
+
+	api.post('/todos/update/workflow/:id', wagner.invoke(function(TODO) {
+		return function(req, res) {
+			TODO.findById(req.params.id, function(error, todo) {				
+				var now = new Date();
+				var workflow = (req.body.status === 'done' && { status : req.body.status, closureDate : now }) ||
+							   (req.body.status  !== 'done' && { status : req.body.status });
+				todo.update(workflow, {upsert:true}, function(error, todo) {
 					if(error) {
 						return res.
 							status(status.INTERNAL_SERVER_ERROR).
